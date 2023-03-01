@@ -11,11 +11,8 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncWebServer.h>
 
+// Copy the file 'src/secrets.txt' to 'src/secrets.h' and change your secrets inside.
 #include "secrets.h"
-
-// Replace with your network credentials
-const char* ssid = "FRITZ!Box 7530 JK";
-const char* password = "47964267509024808916";
 
 bool ledState = 0;
 const int ledPin = 2;
