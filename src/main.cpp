@@ -21,13 +21,8 @@ const int ledPin = 2;
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
-const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML><html>
-<head>
-  <title>ESP Web Server</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="data:,">
-  <style>
+// @inject "../web/index.html"
+const String index_html = "<!DOCTYPE HTML><html><head><title>ESP Web Server</title><meta name=viewport content=\"width=device-width, initial-scale=1\"><link rel=icon href=data:,><style>
   html {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
@@ -87,23 +82,7 @@ const char index_html[] PROGMEM = R"rawliteral(
      color:#8c8c8c;
      font-weight: bold;
    }
-  </style>
-<title>ESP Web Server</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:,">
-</head>
-<body>
-  <div class="topnav">
-    <h1>ESP WebSocket Server</h1>
-  </div>
-  <div class="content">
-    <div class="card">
-      <h2>Output - GPIO 2</h2>
-      <p class="state">state: <span id="state">%STATE%</span></p>
-      <p><button id="button" class="button">Toggle</button></p>
-    </div>
-  </div>
-<script>
+  </style><title>ESP Web Server</title><meta name=viewport content=\"width=device-width, initial-scale=1\"><link rel=icon href=data:,></head><body><div class=topnav><h1>ESP WebSocket Server</h1></div><div class=content><div class=card><h2>Output - GPIO 2</h2><p class=state>state: <span id=state>%STATE%</span></p><p><button id=button class=button>Toggle</button></p></div></div><script>
   var gateway = `ws://${window.location.hostname}/ws`;
   var websocket;
   window.addEventListener('load', onLoad);
@@ -123,11 +102,11 @@ const char index_html[] PROGMEM = R"rawliteral(
   }
   function onMessage(event) {
     var state;
-    if (event.data == "1"){
-      state = "ON";
+    if (event.data == \"1\"){
+      state = \"ON\";
     }
     else{
-      state = "OFF";
+      state = \"OFF\";
     }
     document.getElementById('state').innerHTML = state;
   }
@@ -141,10 +120,8 @@ const char index_html[] PROGMEM = R"rawliteral(
   function toggle(){
     websocket.send('toggle');
   }
-</script>
-</body>
-</html>
-)rawliteral";
+</script></body></html>";
+//const char index_html[] PROGMEM = R"rawliteral()rawliteral";
 
 void notifyClients() {
   ws.textAll(String(ledState));
