@@ -1,10 +1,11 @@
-<!DOCTYPE HTML><html>
+<!DOCTYPE HTML>
+<html>
 <head>
-  <title>ESP Web Server</title>
+  <title>ESP8266 WebSocket</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
   <style>
-  html {
+    html {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
   }
@@ -70,7 +71,7 @@
 </head>
 <body>
   <div class="topnav">
-    <h1>ESP WebSocket Server</h1>
+    <h1>ESP8266 WebSocket</h1>
   </div>
   <div class="content">
     <div class="card">
@@ -80,43 +81,44 @@
     </div>
   </div>
 <script>
-  var gateway = `ws://${window.location.hostname}/ws`;
-  var websocket;
-  window.addEventListener('load', onLoad);
-  function initWebSocket() {
-    console.log('Trying to open a WebSocket connection...');
-    websocket = new WebSocket(gateway);
-    websocket.onopen    = onOpen;
-    websocket.onclose   = onClose;
-    websocket.onmessage = onMessage; // <-- add this line
+var gateway = `ws://${window.location.hostname}/ws`;
+
+var websocket;
+window.addEventListener('load', onLoad);
+function initWebSocket() {
+  console.log('Trying to open a WebSocket connection...');
+  websocket = new WebSocket(gateway);
+  websocket.onopen    = onOpen;
+  websocket.onclose   = onClose;
+  websocket.onmessage = onMessage; 
+}
+function onOpen(event) {
+  console.log('Connection opened');
+}
+function onClose(event) {
+  console.log('Connection closed');
+  setTimeout(initWebSocket, 2000);
+}
+function onMessage(event) {
+  var state;
+  if (event.data == "1"){
+    state = "ON";
   }
-  function onOpen(event) {
-    console.log('Connection opened');
+  else{
+    state = "OFF";
   }
-  function onClose(event) {
-    console.log('Connection closed');
-    setTimeout(initWebSocket, 2000);
-  }
-  function onMessage(event) {
-    var state;
-    if (event.data == "1"){
-      state = "ON";
-    }
-    else{
-      state = "OFF";
-    }
-    document.getElementById('state').innerHTML = state;
-  }
-  function onLoad(event) {
-    initWebSocket();
-    initButton();
-  }
-  function initButton() {
-    document.getElementById('button').addEventListener('click', toggle);
-  }
-  function toggle(){
-    websocket.send('toggle');
-  }
+  document.getElementById('state').innerHTML = state;
+}
+function onLoad(event) {
+  initWebSocket();
+  initButton();
+}
+function initButton() {
+  document.getElementById('button').addEventListener('click', toggle);
+}
+function toggle(){
+  websocket.send('toggle');
+}
 </script>
 </body>
 </html>

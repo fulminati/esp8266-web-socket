@@ -2,4 +2,4 @@
 
 ## References
 
-* <hhttps://randomnerdtutorials.com/esp32-websocket-server-arduino/>
+* <https://randomnerdtutorials.com/esp32-websocket-server-arduino/>
