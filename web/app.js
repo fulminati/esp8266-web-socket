@@ -36,3 +36,4 @@ var gateway = `ws://${window.location.hostname}/ws`;
   function toggle(){
     websocket.send('toggle');
   }
+  
